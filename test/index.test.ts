@@ -7,7 +7,7 @@ test("README example", async () => {
   const tokens = ["token1", "token2"];
 
   const auth = createCallbackAuth(() => {
-    const token = tokens.shift();
+    const token = tokens.shift() as string;
     tokens.push(token);
     return token;
   });
