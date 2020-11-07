@@ -4,29 +4,17 @@ import { sandbox, MockMatcherFunction } from "fetch-mock";
 import { createCallbackAuth } from "../src/index";
 
 test("README example", async () => {
-  const tokens = ["token1", "token2"];
+  let token: string | undefined;
 
-  const auth = createCallbackAuth(() => {
-    const token = tokens.shift() as string;
-    tokens.push(token);
-    return token;
+  const auth = createCallbackAuth(() => token);
+  expect(await auth()).toEqual({
+    type: "unauthenticated",
   });
 
+  token = "secret123";
   expect(await auth()).toEqual({
     type: "token",
-    token: "token1",
-    tokenType: "oauth",
-  });
-
-  expect(await auth()).toEqual({
-    type: "token",
-    token: "token2",
-    tokenType: "oauth",
-  });
-
-  expect(await auth()).toEqual({
-    type: "token",
-    token: "token1",
+    token: "secret123",
     tokenType: "oauth",
   });
 });
@@ -206,6 +194,33 @@ test("auth.hook() with JWT", async () => {
       "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOi0zMCwiZXhwIjo1NzAsImlzcyI6MX0.q3foRa78U3WegM5PrWLEh5N0bH1SD62OqW66ZYzArp95JBNiCbo8KAlGtiRENCIfBZT9ibDUWy82cI4g3F09mdTq3bD1xLavIfmTksIQCz5EymTWR5v6gL14LSmQdWY9lSqkgUG0XCFljWUglEP39H4yeHbFgdjvAYg3ifDS12z9oQz2ACdSpvxPiTuCC804HkPVw8Qoy0OSXvCkFU70l7VXCVUxnuhHnk8-oCGcKUspmeP6UdDnXk-Aus-eGwDfJbU2WritxxaXw6B4a3flTPojkYLSkPBr6Pi0H2-mBsW_Nvs0aLPVLKobQd4gqTkosX3967DoAG8luUMhrnxe8Q"
   );
   const { data } = await hook(requestMock, "GET /user");
+
+  expect(data).toStrictEqual({ id: 123 });
+});
+
+test("auth.hook() unauthenticated", async () => {
+  const expectedRequestHeaders = {
+    accept: "application/vnd.github.v3+json",
+    "user-agent": "test",
+  };
+
+  const matchGetUser: MockMatcherFunction = (url, { headers }) => {
+    expect(url).toEqual("https://api.github.com/");
+    expect(headers).toStrictEqual(expectedRequestHeaders);
+    return true;
+  };
+
+  const requestMock = request.defaults({
+    headers: {
+      "user-agent": "test",
+    },
+    request: {
+      fetch: sandbox().getOnce(matchGetUser, { id: 123 }),
+    },
+  });
+
+  const { hook } = createCallbackAuth(() => undefined);
+  const { data } = await hook(requestMock, "GET /");
 
   expect(data).toStrictEqual({ id: 123 });
 });

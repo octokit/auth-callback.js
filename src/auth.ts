@@ -1,7 +1,15 @@
 import { Callback, Authentication } from "./types";
 
 export async function auth(callback: Callback): Promise<Authentication> {
-  const token = (await callback()).replace(/^(token|bearer) +/i, "");
+  const result = await callback();
+
+  if (!result) {
+    return {
+      type: "unauthenticated",
+    };
+  }
+
+  const token = result.replace(/^(token|bearer) +/i, "");
 
   const tokenType =
     token.split(/\./).length === 3

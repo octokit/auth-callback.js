@@ -21,7 +21,12 @@ export async function hook(
     parameters
   );
 
-  const token = (await callback()).replace(/^(token|bearer) +/i, "");
+  const result = await callback();
+  if (!result) {
+    return request(endpoint as EndpointOptions);
+  }
+
+  const token = result.replace(/^(token|bearer) +/i, "");
   endpoint.headers.authorization = withAuthorizationPrefix(token);
 
   return request(endpoint as EndpointOptions);
