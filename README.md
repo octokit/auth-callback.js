@@ -41,32 +41,19 @@ const { createCallbackAuth } = require("@octokit/auth-callback");
 </tbody>
 </table>
 
-Use callback to rotate through a set of tokens.
-
 ```js
-const tokens = ["token1", "token2"];
+let token;
 
-const auth = createCallbackAuth(() => {
-  const token = tokens.shift();
-  tokens.push(token);
-  return token;
-});
+const auth = createCallbackAuth(() => token);
 await auth();
 // {
-//   type: 'token',
-//   token: 'token1',
-//   tokenType: 'oauth'
+//   type: 'unauthenticated'
 // }
+token = "secret123";
 await auth();
 // {
 //   type: 'token',
-//   token: 'token2',
-//   tokenType: 'oauth'
-// }
-await auth();
-// {
-//   type: 'token',
-//   token: 'token1',
+//   token: 'secret123',
 //   tokenType: 'oauth'
 // }
 ```
@@ -109,6 +96,44 @@ The `createCallbackAuth` method accepts a single `callback` parameter
 The async `auth()` method does not accept any arguments
 
 ## Authentication object
+
+The async `auth()` method resolves to one of two possible authentication objects
+
+1. **Unauthenticated** if the `callback()` returns or resolves a falsy value
+2. **Token authentication** if the `callback()` returns or resolves with a string value
+
+### Unauthenticated
+
+<table width="100%">
+  <thead align=left>
+    <tr>
+      <th width=150>
+        name
+      </th>
+      <th width=70>
+        type
+      </th>
+      <th>
+        description
+      </th>
+    </tr>
+  </thead>
+  <tbody align=left valign=top>
+    <tr>
+      <th>
+        <code>type</code>
+      </th>
+      <th>
+        <code>string</code>
+      </th>
+      <td>
+        <code>"unauthenticated"</code>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Token authentication
 
 <table width="100%">
   <thead align=left>
