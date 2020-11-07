@@ -1,13 +1,29 @@
-import { VERSION } from "./version";
+import { auth } from "./auth";
+import { hook } from "./hook";
+import { StrategyInterface, Callback, Authentication } from "./types";
 
-type Octokit = any;
-type Options = {
-  [option: string]: any;
+export type Types = {
+  StrategyOptions: Callback;
+  AuthOptions: never;
+  Authentication: Authentication;
 };
 
-/**
- * @param octokit Octokit instance
- * @param options Options passed to Octokit constructor
- */
-export function createCallbackAuth(octokit: Octokit, options: Options) {}
-createCallbackAuth.VERSION = VERSION;
+export const createCallbackAuth: StrategyInterface = function createCallbackAuth(
+  callback: Callback
+) {
+  if (!callback) {
+    throw new Error(
+      "[@octokit/auth-callback] No callback passed to createCallbackAuth"
+    );
+  }
+
+  if (typeof callback !== "function") {
+    throw new Error(
+      "[@octokit/auth-callback] Callback passed to createCallbackAuth is not a function"
+    );
+  }
+
+  return Object.assign(auth.bind(null, callback), {
+    hook: hook.bind(null, callback),
+  });
+};

@@ -41,15 +41,154 @@ const { createCallbackAuth } = require("@octokit/auth-callback");
 </tbody>
 </table>
 
+Use callback to rotate through a set of tokens.
+
 ```js
-const auth = createCallbackAuth(
-  () => "1234567890abcdef1234567890abcdef12345678"
-);
-const authentication = await auth();
+const tokens = ["token1", "token2"];
+
+const auth = createCallbackAuth(() => {
+  const token = tokens.shift();
+  tokens.push(token);
+  return token;
+});
+await auth();
 // {
 //   type: 'token',
-//   token: '1234567890abcdef1234567890abcdef12345678'
+//   token: 'token1',
+//   tokenType: 'oauth'
 // }
+await auth();
+// {
+//   type: 'token',
+//   token: 'token2',
+//   tokenType: 'oauth'
+// }
+await auth();
+// {
+//   type: 'token',
+//   token: 'token1',
+//   tokenType: 'oauth'
+// }
+```
+
+## `createCallbackAuth(callback)`
+
+The `createCallbackAuth` method accepts a single `callback` parameter
+
+<table width="100%">
+  <thead align=left>
+    <tr>
+      <th width=150>
+        name
+      </th>
+      <th width=70>
+        type
+      </th>
+      <th>
+        description
+      </th>
+    </tr>
+  </thead>
+  <tbody align=left valign=top>
+    <tr>
+      <th>
+        <code>callback</code>
+      </th>
+      <th>
+        <code>string</code>
+      </th>
+      <td>
+        <strong>Required</strong>. A method that returns or resolves with a token string.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## `auth()`
+
+The async `auth()` method does not accept any arguments
+
+## Authentication object
+
+<table width="100%">
+  <thead align=left>
+    <tr>
+      <th width=150>
+        name
+      </th>
+      <th width=70>
+        type
+      </th>
+      <th>
+        description
+      </th>
+    </tr>
+  </thead>
+  <tbody align=left valign=top>
+    <tr>
+      <th>
+        <code>type</code>
+      </th>
+      <th>
+        <code>string</code>
+      </th>
+      <td>
+        <code>"token"</code>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        <code>token</code>
+      </th>
+      <th>
+        <code>string</code>
+      </th>
+      <td>
+        The personal access token
+      </td>
+    </tr>
+    <tr>
+      <th>
+        <code>tokenType</code>
+      </th>
+      <th>
+        <code>string</code>
+      </th>
+      <td>
+
+One of:
+
+1. <code>"oauth"</code> (if returned string is an OAuth or personal access tokens)
+2. <code>"installation"</code> (if returned string is an installation access tokens)
+3. <code>"app"</code> (if returned string is a JSON Web Token (JWT) for GitHub App authentication)
+
+</td>
+    </tr>
+  </tbody>
+</table>
+
+## `auth.hook(request, route, parameters)` or `auth.hook(request, options)`
+
+`auth.hook()` hooks directly into the request life cycle. It amends the request to authenticate correctly based on the request URL.
+
+The `request` option is an instance of [`@octokit/request`](https://github.com/octokit/request.js#readme). The `route`/`options` parameters are the same as for the [`request()` method](https://github.com/octokit/request.js#request).
+
+`auth.hook()` can be called directly to send an authenticated request
+
+```js
+const { data: user } = await auth.hook(request, "GET /user");
+```
+
+Or it can be passed as option to [`request()`](https://github.com/octokit/request.js#request).
+
+```js
+const requestWithAuth = request.defaults({
+  request: {
+    hook: auth.hook,
+  },
+});
+
+const { data: user } = await requestWithAuth("GET /user");
 ```
 
 ## Contributing
