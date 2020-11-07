@@ -16,11 +16,10 @@ Browsers
 
 </th><td width=100%>
 
-Load `@octokit/auth-callback` and [`@octokit/core`](https://github.com/octokit/core.js) (or core-compatible module) directly from [cdn.pika.dev](https://cdn.pika.dev)
+Load `@octokit/auth-callback` directly from [cdn.pika.dev](https://cdn.pika.dev)
 
 ```html
 <script type="module">
-  import { Octokit } from "https://cdn.pika.dev/@octokit/core";
   import { createCallbackAuth } from "https://cdn.pika.dev/@octokit/auth-callback";
 </script>
 ```
@@ -32,10 +31,9 @@ Node
 
 </th><td>
 
-Install with `npm install @octokit/core @octokit/auth-callback`. Optionally replace `@octokit/core` with a compatible module
+Install with `npm install @octokit/auth-callback`
 
 ```js
-const { Octokit } = require("@octokit/core");
 const { createCallbackAuth } = require("@octokit/auth-callback");
 ```
 
