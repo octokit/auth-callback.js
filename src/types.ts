@@ -13,8 +13,11 @@ export type RequestInterface = OctokitTypes.RequestInterface;
 export type Route = OctokitTypes.Route;
 
 export type Token = string;
-export type Callback = () => Token | Promise<Token>;
+export type Callback = () => Token | undefined | Promise<Token | undefined>;
 
+export type UnauthenticatedAuthentication = {
+  type: "unauthenticated";
+};
 export type OAuthTokenAuthentication = {
   type: "token";
   tokenType: "oauth";
@@ -31,6 +34,7 @@ export type AppAuthentication = {
   token: Token;
 };
 export type Authentication =
+  | UnauthenticatedAuthentication
   | OAuthTokenAuthentication
   | InstallationTokenAuthentication
   | AppAuthentication;
