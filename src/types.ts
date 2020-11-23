@@ -2,7 +2,7 @@ import * as OctokitTypes from "@octokit/types";
 
 export type AnyResponse = OctokitTypes.OctokitResponse<any>;
 export type StrategyInterface = OctokitTypes.StrategyInterface<
-  [StrategyOption],
+  [Callback],
   [],
   Authentication
 >;
@@ -14,7 +14,6 @@ export type Route = OctokitTypes.Route;
 
 export type Token = string;
 export type Callback = () => Token | undefined | Promise<Token | undefined>;
-export type StrategyOption = { callback: Callback };
 
 export type UnauthenticatedAuthentication = {
   type: "unauthenticated";

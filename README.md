@@ -44,7 +44,7 @@ const { createCallbackAuth } = require("@octokit/auth-callback");
 ```js
 let token;
 
-const auth = createCallbackAuth({ callback: () => token });
+const auth = createCallbackAuth(() => token);
 await auth();
 // {
 //   type: 'unauthenticated'
@@ -58,9 +58,9 @@ await auth();
 // }
 ```
 
-## `createCallbackAuth(options)`
+## `createCallbackAuth(callback)`
 
-The `createCallbackAuth` method accepts a single `options` parameter
+The `createCallbackAuth` method accepts a single `callback` parameter
 
 <table width="100%">
   <thead align=left>
@@ -79,10 +79,10 @@ The `createCallbackAuth` method accepts a single `options` parameter
   <tbody align=left valign=top>
     <tr>
       <th>
-        <code>options.callback</code>
+        <code>callback</code>
       </th>
       <th>
-        <code>function</code>
+        <code>string</code>
       </th>
       <td>
         <strong>Required</strong>. A method that returns or resolves with a token string.
