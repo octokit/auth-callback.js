@@ -1,29 +1,29 @@
 import { auth } from "./auth";
 import { hook } from "./hook";
-import { StrategyInterface, Callback, Authentication } from "./types";
+import { StrategyInterface, StrategyOption, Authentication } from "./types";
 
 export type Types = {
-  StrategyOptions: Callback;
+  StrategyOptions: StrategyOption;
   AuthOptions: never;
   Authentication: Authentication;
 };
 
 export const createCallbackAuth: StrategyInterface = function createCallbackAuth(
-  callback: Callback
+  options: StrategyOption
 ) {
-  if (!callback) {
+  if (!options || !options.callback) {
     throw new Error(
-      "[@octokit/auth-callback] No callback passed to createCallbackAuth"
+      "[@octokit/auth-callback] No options.callback passed to createCallbackAuth"
     );
   }
 
-  if (typeof callback !== "function") {
+  if (typeof options.callback !== "function") {
     throw new Error(
-      "[@octokit/auth-callback] Callback passed to createCallbackAuth is not a function"
+      "[@octokit/auth-callback] options.callback passed to createCallbackAuth is not a function"
     );
   }
 
-  return Object.assign(auth.bind(null, callback), {
-    hook: hook.bind(null, callback),
+  return Object.assign(auth.bind(null, options.callback), {
+    hook: hook.bind(null, options.callback),
   });
 };
