@@ -9,7 +9,7 @@
     "pretest": "npm run -s lint",
     "test": "jest --coverage"
   },
-  "repository": "https://github.com/octokit/auth-callback.js",
+  "repository": "github:octokit/auth-callback.js",
   "keywords": [
     "github",
     "api",
