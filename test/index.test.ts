@@ -1,5 +1,5 @@
 import { request } from "@octokit/request";
-import { sandbox, MockMatcherFunction } from "fetch-mock";
+import fetchMock, { MockMatcherFunction } from "fetch-mock";
 import { Octokit } from "@octokit/core";
 
 import { createCallbackAuth } from "../src/index";
@@ -152,12 +152,14 @@ test('auth.hook(request, "GET /user")', async () => {
     return true;
   };
 
+  const mock = fetchMock.sandbox().getOnce(matchGetUser, { id: 123 });
+
   const requestMock = request.defaults({
     headers: {
       "user-agent": "test",
     },
     request: {
-      fetch: sandbox().getOnce(matchGetUser, { id: 123 }),
+      fetch: mock,
     },
   });
 
@@ -183,12 +185,14 @@ test("auth.hook() with JWT", async () => {
     return true;
   };
 
+  const mock = fetchMock.sandbox().getOnce(matchGetUser, { id: 123 });
+
   const requestMock = request.defaults({
     headers: {
       "user-agent": "test",
     },
     request: {
-      fetch: sandbox().getOnce(matchGetUser, { id: 123 }),
+      fetch: mock,
     },
   });
 
@@ -213,12 +217,14 @@ test("auth.hook() unauthenticated", async () => {
     return true;
   };
 
+  const mock = fetchMock.sandbox().getOnce(matchGetUser, { id: 123 });
+
   const requestMock = request.defaults({
     headers: {
       "user-agent": "test",
     },
     request: {
-      fetch: sandbox().getOnce(matchGetUser, { id: 123 }),
+      fetch: mock,
     },
   });
 
