@@ -64,7 +64,7 @@ test("no callback", async () => {
     // @ts-ignore
     const auth = createCallbackAuth();
     throw new Error("Should not resolve");
-  } catch (error) {
+  } catch (error: any) {
     expect(error.message).toMatch(
       /no options.callback passed to createCallbackAuth/i
     );
@@ -76,7 +76,7 @@ test("callback is not a function", async () => {
     // @ts-ignore
     const auth = createCallbackAuth({ callback: {} });
     throw new Error("Should not resolve");
-  } catch (error) {
+  } catch (error: any) {
     expect(error.message).toMatch(
       /options.callback passed to createCallbackAuth is not a function/i
     );
