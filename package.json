@@ -20,7 +20,7 @@
   "license": "MIT",
   "devDependencies": {
     "@octokit/core": "^3.2.1",
-    "@octokit/request": "^5.4.10",
+    "@octokit/request": "^6.0.0",
     "@octokit/tsconfig": "^1.0.1",
     "@pika/pack": "^0.5.0",
     "@pika/plugin-build-node": "^0.9.2",
