@@ -80,11 +80,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "renovate": {
-    "extends": [
-      "github>octokit/.github"
-    ]
-  },
   "engines": {
     "node": ">= 14"
   }
