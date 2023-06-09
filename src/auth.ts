@@ -1,4 +1,4 @@
-import { Callback, Authentication } from "./types";
+import type { Callback, Authentication } from "./types";
 
 export async function auth(callback: Callback): Promise<Authentication> {
   const result = await callback();
