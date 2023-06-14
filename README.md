@@ -15,11 +15,11 @@ Browsers
 
 </th><td width=100%>
 
-Load `@octokit/auth-callback` directly from [cdn.pika.dev](https://cdn.pika.dev)
+Load `@octokit/auth-callback` directly from [esm.sh](https://esm.sh)
 
 ```html
 <script type="module">
-  import { createCallbackAuth } from "https://cdn.pika.dev/@octokit/auth-callback";
+  import { createCallbackAuth } from "https://esm.sh/@octokit/auth-callback";
 </script>
 ```
 
