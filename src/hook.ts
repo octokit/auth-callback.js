@@ -14,11 +14,11 @@ export async function hook(
   callback: Callback,
   request: RequestInterface,
   route: Route | EndpointOptions,
-  parameters?: RequestParameters
+  parameters?: RequestParameters,
 ): Promise<AnyResponse> {
   const endpoint: EndpointDefaults = request.endpoint.merge(
     route as string,
-    parameters
+    parameters,
   );
 
   const result = await callback();

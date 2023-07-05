@@ -66,7 +66,7 @@ test("no callback", async () => {
     throw new Error("Should not resolve");
   } catch (error: any) {
     expect(error.message).toMatch(
-      /no options.callback passed to createCallbackAuth/i
+      /no options.callback passed to createCallbackAuth/i,
     );
   }
 });
@@ -78,7 +78,7 @@ test("callback is not a function", async () => {
     throw new Error("Should not resolve");
   } catch (error: any) {
     expect(error.message).toMatch(
-      /options.callback passed to createCallbackAuth is not a function/i
+      /options.callback passed to createCallbackAuth is not a function/i,
     );
   }
 });

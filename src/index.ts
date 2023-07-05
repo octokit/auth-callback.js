@@ -16,13 +16,13 @@ export const createCallbackAuth: StrategyInterface =
   function createCallbackAuth(options: StrategyOption) {
     if (!options || !options.callback) {
       throw new Error(
-        "[@octokit/auth-callback] No options.callback passed to createCallbackAuth"
+        "[@octokit/auth-callback] No options.callback passed to createCallbackAuth",
       );
     }
 
     if (typeof options.callback !== "function") {
       throw new Error(
-        "[@octokit/auth-callback] options.callback passed to createCallbackAuth is not a function"
+        "[@octokit/auth-callback] options.callback passed to createCallbackAuth is not a function",
       );
     }
 
