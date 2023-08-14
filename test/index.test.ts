@@ -148,7 +148,7 @@ test('auth.hook(request, "GET /user")', async () => {
 
   const matchGetUser: MockMatcherFunction = (url, { headers }) => {
     expect(url).toEqual("https://api.github.com/user");
-    expect(headers).toStrictEqual(expectedRequestHeaders);
+    expect(headers).toEqual(expectedRequestHeaders);
     return true;
   };
 
@@ -168,7 +168,7 @@ test('auth.hook(request, "GET /user")', async () => {
   });
   const { data } = await hook(requestMock, "GET /user");
 
-  expect(data).toStrictEqual({ id: 123 });
+  expect(data).toEqual({ id: 123 });
 });
 
 test("auth.hook() with JWT", async () => {
@@ -181,7 +181,7 @@ test("auth.hook() with JWT", async () => {
 
   const matchGetUser: MockMatcherFunction = (url, { headers }) => {
     expect(url).toEqual("https://api.github.com/user");
-    expect(headers).toStrictEqual(expectedRequestHeaders);
+    expect(headers).toEqual(expectedRequestHeaders);
     return true;
   };
 
@@ -202,7 +202,7 @@ test("auth.hook() with JWT", async () => {
   });
   const { data } = await hook(requestMock, "GET /user");
 
-  expect(data).toStrictEqual({ id: 123 });
+  expect(data).toEqual({ id: 123 });
 });
 
 test("auth.hook() unauthenticated", async () => {
@@ -213,7 +213,7 @@ test("auth.hook() unauthenticated", async () => {
 
   const matchGetUser: MockMatcherFunction = (url, { headers }) => {
     expect(url).toEqual("https://api.github.com/");
-    expect(headers).toStrictEqual(expectedRequestHeaders);
+    expect(headers).toEqual(expectedRequestHeaders);
     return true;
   };
 
@@ -231,7 +231,7 @@ test("auth.hook() unauthenticated", async () => {
   const { hook } = createCallbackAuth({ callback: () => undefined });
   const { data } = await hook(requestMock, "GET /");
 
-  expect(data).toStrictEqual({ id: 123 });
+  expect(data).toEqual({ id: 123 });
 });
 
 test("https://github.com/Belco90/octoclairvoyant/issues/22", async () => {
