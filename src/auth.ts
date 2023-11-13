@@ -15,8 +15,8 @@ export async function auth(callback: Callback): Promise<Authentication> {
     token.split(/\./).length === 3
       ? "app"
       : /^v\d+\./.test(token)
-      ? "installation"
-      : "oauth";
+        ? "installation"
+        : "oauth";
 
   return {
     type: "token",
