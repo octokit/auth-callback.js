@@ -2,7 +2,7 @@ import { request } from "@octokit/request";
 import fetchMock, { MockMatcherFunction } from "fetch-mock";
 import { Octokit } from "@octokit/core";
 
-import { createCallbackAuth } from "../src/index";
+import { createCallbackAuth } from "../src/index.js";
 
 test("README example", async () => {
   let token: string | undefined;
