@@ -1,8 +1,12 @@
+import { expect, test } from "vitest";
 import { request } from "@octokit/request";
-import fetchMock, { MockMatcherFunction } from "fetch-mock";
+import fetchMock from "fetch-mock";
 import { Octokit } from "@octokit/core";
 
 import { createCallbackAuth } from "../src/index.js";
+
+// Remove this when fetch-mock is updated to v12
+type MockMatcherFunction = fetchMock.MockMatcherFunction;
 
 test("README example", async () => {
   let token: string | undefined;
@@ -61,7 +65,7 @@ test("invalid token", async () => {
 
 test("no callback", async () => {
   try {
-    // @ts-ignore
+    // @ts-expect-error
     const auth = createCallbackAuth();
     throw new Error("Should not resolve");
   } catch (error: any) {
@@ -73,7 +77,7 @@ test("no callback", async () => {
 
 test("callback is not a function", async () => {
   try {
-    // @ts-ignore
+    // @ts-expect-error
     const auth = createCallbackAuth({ callback: {} });
     throw new Error("Should not resolve");
   } catch (error: any) {
