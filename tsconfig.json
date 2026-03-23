@@ -6,6 +6,8 @@
     "outDir": "pkg/dist-types",
     "emitDeclarationOnly": true,
     "sourceMap": true
+    "types": ["node"],
+    "rootDir": "./src"
   },
   "include": [
     "src/**/*"
